@@ -173,6 +173,12 @@ spec:
         path: db_management_pod_node_selector
         x-descriptors:
         - urn:alm:descriptor:com.tectonic.ui:advanced
+      - displayName: Public Base URL
+        path: public_base_url
+        x-descriptors:
+        - urn:alm:descriptor:com.tectonic.ui:text
+        - urn:alm:descriptor:com.tectonic.ui:advanced
+        - urn:alm:descriptor:com.tectonic.ui:hidden
       statusDescriptors:
       - description: Persistent volume claim name used during backup
         displayName: Backup Claim
