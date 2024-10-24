@@ -91,8 +91,6 @@ data:
 
     RECEPTOR_LOG_LEVEL = '{{ receptor_log_level }}'
 
-    RECEPTOR_DATADIR = '{{ receptor_datadir }}'
-
 
 {% for item in extra_settings | default([]) %}
     {{ item.setting }} = {{ item.value }}
