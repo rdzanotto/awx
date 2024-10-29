@@ -28,11 +28,12 @@ spec:
       annotations:
         kubectl.kubernetes.io/default-container: '{{ ansible_operator_meta.name }}-web'
 {% for template in [
-    "configmaps/config",
-    "secrets/app_credentials",
-    "storage/persistent",
+    "configmaps/config.yaml",
+    "configmaps/redirect-page.configmap.html",
+    "secrets/app_credentials.yaml",
+    "storage/persistent.yaml",
   ] %}
-        checksum-{{ template | replace('/', '-') }}: "{{ lookup('template', template + '.yaml.j2') | sha1 }}"
+        checksum-{{ template | replace('/', '-') }}: "{{ lookup('template', template + '.j2') | sha1 }}"
 {% endfor %}
 {% for secret in [
     "bundle_cacert",
@@ -197,6 +198,11 @@ spec:
             timeoutSeconds: {{ web_readiness_timeout }}
 {% endif %}
           volumeMounts:
+{% if public_base_url is defined %}
+            - name: redirect-page
+              mountPath: '/var/lib/awx/venv/awx/lib/python3.11/site-packages/awx/ui/build/index.html'
+              subPath: redirect-page.html
+{% endif %}
 {% if bundle_ca_crt %}
             - name: "ca-trust-extracted"
               mountPath: "/etc/pki/ca-trust/extracted"
@@ -375,6 +381,14 @@ spec:
         {{ security_context_settings | to_nice_yaml | indent(8) }}
 {% endif %}
       volumes:
+{% if public_base_url is defined %}
+        - name: redirect-page
+          configMap:
+            name: '{{ ansible_operator_meta.name }}-redirect-page'
+            items:
+              - key: redirect-page.html
+                path: redirect-page.html
+{% endif %}
         - name: "{{ ansible_operator_meta.name }}-receptor-ca"
           secret:
             secretName: "{{ ansible_operator_meta.name }}-receptor-ca"
