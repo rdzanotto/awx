@@ -9,4 +9,5 @@
     wait_timeout: 900
     wait_condition:
       type: Running
+      reason: Successful
       status: "True"
