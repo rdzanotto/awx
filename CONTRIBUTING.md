@@ -10,6 +10,7 @@ Have questions about this document or anything not covered here? Please file a n
   - [Table of contents](#table-of-contents)
   - [Things to know prior to submitting code](#things-to-know-prior-to-submitting-code)
   - [Submmiting your work](#submmiting-your-work)
+  - [Development](#development)
   - [Testing](#testing)
       - [Testing in Kind](#testing-in-kind)
       - [Testing in Minikube](#testing-in-minikube)
@@ -42,7 +43,8 @@ Have questions about this document or anything not covered here? Please file a n
 
 **Note**: If you have multiple commits, make sure to `squash` your commits into a single commit which will facilitate our release process.
 
-
+## Development
+The development environment consists of running an [`up.sh`](./up.sh) and a [`down.sh`](./down.sh) script, which applies or deletes yaml on the Openshift or K8s cluster you are connected to. See the [development.md](docs/development.md) for information on how to deploy and test changes from your branch.
 
 ## Testing
 
