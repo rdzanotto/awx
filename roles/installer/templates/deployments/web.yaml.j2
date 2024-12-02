@@ -29,12 +29,14 @@ spec:
         kubectl.kubernetes.io/default-container: '{{ ansible_operator_meta.name }}-web'
 {% for template in [
     "configmaps/config.yaml",
-    "configmaps/redirect-page.configmap.html",
     "secrets/app_credentials.yaml",
     "storage/persistent.yaml",
   ] %}
         checksum-{{ template | replace('/', '-') }}: "{{ lookup('template', template + '.j2') | sha1 }}"
 {% endfor %}
+{% if public_base_url is defined %}
+        checksum-configmaps-redirect-page.configmap.html: "{{ lookup('template', 'configmaps/redirect-page.configmap.html.j2') | sha1 }}"
+{% endif %}
 {% for secret in [
     "bundle_cacert",
     "route_tls",
